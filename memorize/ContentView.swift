@@ -8,13 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    let emojis = ["🫥", "🐦", "🫧","🧊", "🏖️", "♨️", "🔶", "🎴", "❣️", "📚", "🦦", "👹"]
-    @State var cardCount = 4
+    let theme1 = ["🐯", "🪱", "🐢", "🦧", "🐯", "🪱", "🐢", "🦧"]
+    let theme2 = ["🥑", "🍞", "🌯", "🍟", "🥗", "🥑", "🍞", "🌯", "🍟", "🥗"]
+    let theme3 = ["📸", "💿", "🔋", "⏰", "⏳", "🧨","📸", "💿", "🔋", "⏰", "⏳", "🧨"]
+    @State var emojis: [String]
+    
+    init() {
+        emojis = theme1
+    }
     var body: some View {
         VStack {
+            Text("memorize!")
+                .font(.largeTitle)
             ScrollView {
                 cards
-               
             }
             Spacer()
             cardButtons
@@ -23,12 +30,11 @@ struct ContentView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
-            ForEach(0..<cardCount, id: \.self) { index in
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
+            ForEach(0..<emojis.count, id: \.self) { index in
                 CardView(content: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
-            
         }
         .foregroundColor(.orange)
     }
@@ -40,14 +46,38 @@ struct ContentView: View {
                 cardCount += 1
             }
              */
-            cardAdder
-            Spacer()
-            cardRemover
+            theme1Button
+            theme2Button
+            theme3Button
         }
-        .imageScale(.medium)
-        .font(.title)
+        .imageScale(.large)
+        .font(.subheadline)
     }
     
+    var theme1Button: some View {
+        themeButton(theme: "animals", cards: theme1, symbol: "pawprint.fill")
+    }
+    
+    var theme2Button: some View {
+        themeButton(theme: "food", cards: theme2, symbol: "fork.knife")
+    }
+    
+    var theme3Button: some View {
+        themeButton(theme: "objects", cards: theme3, symbol: "tray.fill")
+    }
+    
+    func themeButton(theme: String, cards: [String], symbol: String) -> some View {
+        Button(action: {
+            emojis = cards.shuffled()
+        }, label: {
+            VStack{
+                Image(systemName: symbol)
+                Text(theme)
+            }
+        })
+    }
+    
+    /*
     var cardRemover: some View {
         cardButton(by: -1, symbol: "rectangle.stack.badge.minus.fill")
     }
@@ -64,12 +94,13 @@ struct ContentView: View {
         })
         .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
     }
+     */
 }
 
 struct CardView: View {
     // (var > let if optional so that it can change, otherwise it'd just use the default value)
     // @State adds a pointer to the var so that it doesn't change
-    @State var isFaceUp = true
+    @State var isFaceUp = false
     let content: String
     var body: some View{
         // closure expression syntax
