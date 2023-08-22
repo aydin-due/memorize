@@ -20,9 +20,12 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFaceUp: Bool = false
+    // (var > let if optional so that it can change, otherwise it'd just use the default value)
+    var isFaceUp = false
     var body: some View{
-        ZStack {
+        // closure expression syntax
+        /*
+        ZStack(alignment: .center, content: {
             if isFaceUp {
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(.white)
@@ -31,6 +34,22 @@ struct CardView: View {
                 Text("🫥").font(.largeTitle)
             } else {
                 RoundedRectangle(cornerRadius: 12)
+            }
+        })
+         */
+        // trailing closure syntax
+        ZStack {
+            // can declare variables (let > var bc it can't change)
+            let base =  RoundedRectangle(cornerRadius: 12)
+            // let x = 1
+            // can't make operations on vars
+            // x = x+1
+            if isFaceUp {
+                base.foregroundColor(.white)
+                base.strokeBorder(lineWidth: 2)
+                Text("🫥").font(.largeTitle)
+            } else {
+                base
             }
         }
     }
