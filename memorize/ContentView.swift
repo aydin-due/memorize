@@ -21,7 +21,8 @@ struct ContentView: View {
 
 struct CardView: View {
     // (var > let if optional so that it can change, otherwise it'd just use the default value)
-    var isFaceUp = false
+    // @State adds a pointer to the var so that it doesn't change
+    @State var isFaceUp = false
     var body: some View{
         // closure expression syntax
         /*
@@ -51,6 +52,10 @@ struct CardView: View {
             } else {
                 base
             }
+        }
+        .onTapGesture {
+            //print("tapped!")
+            isFaceUp.toggle()
         }
     }
 }
