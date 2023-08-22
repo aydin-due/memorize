@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
+        let emojis = ["🫥", "🐦", "🫧"]
         HStack {
-            CardView()
-            CardView(isFaceUp: true)
-            CardView()
+            ForEach(emojis.indices, id: \.self) { index in
+                CardView(content: emojis[index])
+            }
         }
         .foregroundColor(.orange)
         .padding()
@@ -22,7 +23,8 @@ struct ContentView: View {
 struct CardView: View {
     // (var > let if optional so that it can change, otherwise it'd just use the default value)
     // @State adds a pointer to the var so that it doesn't change
-    @State var isFaceUp = false
+    @State var isFaceUp = true
+    let content: String
     var body: some View{
         // closure expression syntax
         /*
@@ -48,7 +50,7 @@ struct CardView: View {
             if isFaceUp {
                 base.foregroundColor(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text("🫥").font(.largeTitle)
+                Text(content).font(.largeTitle)
             } else {
                 base
             }
