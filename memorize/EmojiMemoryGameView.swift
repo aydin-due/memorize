@@ -22,7 +22,7 @@ struct EmojiMemoryGameView: View {
                 viewModel.shuffle()
             }
         }
-        .padding()
+        .padding() 
     }
     
     var cards: some View {
@@ -40,6 +40,9 @@ struct EmojiMemoryGameView: View {
                 CardView(card)
                     .aspectRatio(2/3, contentMode: .fit)
                     .padding(4)
+                    .onTapGesture {
+                        viewModel.choose(card)
+                    }
             }
             
         }

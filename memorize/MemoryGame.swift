@@ -21,8 +21,19 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
          
     }
 
-    func choose(_ card: Card) {
-
+    mutating func choose(_ card: Card) {
+        //print("chose \(card)")
+        let index = index(of: card)
+        cards[index].isFaceUp.toggle()
+    }
+    
+    func index(of card: Card) -> Int {
+        for index in cards.indices {
+            if cards[index].id == card.id {
+                return index
+            }
+        }
+        return 0 // FIXME: not return first element
     }
     
     //mutating kw so that ur aware it's gonna do a copy on write
