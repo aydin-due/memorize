@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
+    // @StateObject - var exists only when the view's active
+    // @ObservedObject - var's lifetime is where it comes from (the app or another view)
     @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
         VStack {
             ScrollView {
                 cards
-                
+                    .animation(.default, value: viewModel.cards)
+        
             }
             Button("Shuffle"){
                 viewModel.shuffle()
@@ -24,8 +27,17 @@ struct EmojiMemoryGameView: View {
     
     var cards: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {
+            // this is dependent on the card index, not the card itself
+            /*
             ForEach(viewModel.cards.indices, id: \.self) { index in
                 CardView(viewModel.cards[index])
+                    .aspectRatio(2/3, contentMode: .fit)
+                    .padding(4)
+            }
+            */
+            // \.self means to identify the thing w/ itself
+            ForEach(viewModel.cards) { card in
+                CardView(card)
                     .aspectRatio(2/3, contentMode: .fit)
                     .padding(4)
             }
