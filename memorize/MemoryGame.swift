@@ -24,19 +24,26 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     // computed property
     var upsideCardIndex: Int? {
         get {
+            /*
             var facedUpCards = [Int]()
             for index in cards.indices {
                 if cards[index].isFaceUp {
                     facedUpCards.append(index)
                 }
             }
+             */
+            let faceUpCards = cards.indices.filter {index in cards[index].isFaceUp }
+            /*
             if facedUpCards.count == 1 {
                 return facedUpCards.first
             } else {
                 return nil
             }
+             */
+            return faceUpCards.count == 1 ? faceUpCards.first : nil
         }
         set {
+            /*
             for index in cards.indices {
                 if index == newValue {
                     cards[index].isFaceUp = true
@@ -44,6 +51,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     cards[index].isFaceUp = false
                 }
             }
+             */
+            return cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) }
         }
     }
 
