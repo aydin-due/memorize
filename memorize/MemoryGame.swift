@@ -20,21 +20,40 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
          
     }
+    
+    var upsideCardIndex: Int?
 
     mutating func choose(_ card: Card) {
         //print("chose \(card)")
-        let index = index(of: card)
-        cards[index].isFaceUp.toggle()
+        if let chosenCard = cards.firstIndex(where: {$0.id == card.id}) {
+            if !cards[chosenCard].isFaceUp && !cards[chosenCard].isMatched {
+                if let previousCard = upsideCardIndex {
+                    if cards[chosenCard].content == cards[previousCard].content {
+                        cards[chosenCard].isMatched = true
+                        cards[previousCard].isMatched = true
+                    }
+                    upsideCardIndex = nil
+                } else {
+                    for index in cards.indices {
+                        cards[index].isFaceUp = false
+                    }
+                    upsideCardIndex = chosenCard
+                }
+                cards[chosenCard].isFaceUp = true
+            }
+        }
     }
     
-    func index(of card: Card) -> Int {
+    /*
+    func index(of card: Card) -> Int? {
         for index in cards.indices {
             if cards[index].id == card.id {
                 return index
             }
         }
-        return 0 // FIXME: not return first element
+        return nil
     }
+    */
     
     //mutating kw so that ur aware it's gonna do a copy on write
     mutating func shuffle(){
@@ -55,7 +74,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             lhs.content == rhs.content
         }
          */
-        var isFaceUp = true
+        var isFaceUp = false
         var isMatched = false
         let content: CardContent
         var id: String
