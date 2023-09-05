@@ -21,7 +21,31 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
          
     }
     
-    var upsideCardIndex: Int?
+    // computed property
+    var upsideCardIndex: Int? {
+        get {
+            var facedUpCards = [Int]()
+            for index in cards.indices {
+                if cards[index].isFaceUp {
+                    facedUpCards.append(index)
+                }
+            }
+            if facedUpCards.count == 1 {
+                return facedUpCards.first
+            } else {
+                return nil
+            }
+        }
+        set {
+            for index in cards.indices {
+                if index == newValue {
+                    cards[index].isFaceUp = true
+                } else {
+                    cards[index].isFaceUp = false
+                }
+            }
+        }
+    }
 
     mutating func choose(_ card: Card) {
         //print("chose \(card)")
@@ -32,11 +56,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                         cards[chosenCard].isMatched = true
                         cards[previousCard].isMatched = true
                     }
-                    upsideCardIndex = nil
                 } else {
-                    for index in cards.indices {
-                        cards[index].isFaceUp = false
-                    }
                     upsideCardIndex = chosenCard
                 }
                 cards[chosenCard].isFaceUp = true
