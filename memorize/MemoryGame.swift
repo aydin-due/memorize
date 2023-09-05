@@ -18,6 +18,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: content, id: "\(pairIndex+1)a"))
             cards.append(Card(content: content, id: "\(pairIndex+1)b"))
         }
+        shuffle()
          
     }
     
@@ -106,6 +107,13 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         let content: CardContent
         var id: String
     }
+    
+    mutating func restart(){
+        cards.indices.forEach { cards[$0].isFaceUp = false }
+        cards.indices.forEach { cards[$0].isMatched = false }
+        shuffle()
+    }
+    
 }
 
 extension Array {
