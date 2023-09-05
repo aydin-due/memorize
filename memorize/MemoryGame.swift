@@ -23,7 +23,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     // computed property
     var upsideCardIndex: Int? {
-        get {
+        get { cards.indices.filter {index in cards[index].isFaceUp }.only }
             /*
             var facedUpCards = [Int]()
             for index in cards.indices {
@@ -32,7 +32,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 }
             }
              */
-            let faceUpCards = cards.indices.filter {index in cards[index].isFaceUp }
+            //let faceUpCards = cards.indices.filter {index in cards[index].isFaceUp }
             /*
             if facedUpCards.count == 1 {
                 return facedUpCards.first
@@ -40,9 +40,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 return nil
             }
              */
-            return faceUpCards.count == 1 ? faceUpCards.first : nil
-        }
-        set {
+            //return faceUpCards.count == 1 ? faceUpCards.first : nil
+        set { cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) } }
             /*
             for index in cards.indices {
                 if index == newValue {
@@ -52,8 +51,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 }
             }
              */
-            return cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) }
-        }
+            //return cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) }
     }
 
     mutating func choose(_ card: Card) {
@@ -107,5 +105,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         var isMatched = false
         let content: CardContent
         var id: String
+    }
+}
+
+extension Array {
+    var only: Element? {
+        count == 1 ? first : nil
     }
 }
