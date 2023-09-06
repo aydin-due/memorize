@@ -13,11 +13,8 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
         VStack {
-            ScrollView {
                 cards
                     .animation(.default, value: viewModel.cards)
-        
-            }
             Button("Shuffle"){
                 viewModel.shuffle()
             }
@@ -26,27 +23,47 @@ struct EmojiMemoryGameView: View {
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {
-            // this is dependent on the card index, not the card itself
-            /*
-            ForEach(viewModel.cards.indices, id: \.self) { index in
-                CardView(viewModel.cards[index])
-                    .aspectRatio(2/3, contentMode: .fit)
-                    .padding(4)
-            }
-            */
-            // \.self means to identify the thing w/ itself
-            ForEach(viewModel.cards) { card in
-                CardView(card)
-                    .aspectRatio(2/3, contentMode: .fit)
-                    .padding(4)
-                    .onTapGesture {
-                        viewModel.choose(card)
-                    }
+        GeometryReader{ geometry in
+            let gridSize = gridWidth(count: viewModel.cards.count, size: geometry.size, aspectRatio: 2/3)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: gridSize), spacing: 0)], spacing: 0) {
+                // this is dependent on the card index, not the card itself
+                /*
+                 ForEach(viewModel.cards.indices, id: \.self) { index in
+                 CardView(viewModel.cards[index])
+                 .aspectRatio(2/3, contentMode: .fit)
+                 .padding(4)
+                 }
+                 */
+                // \.self means to identify the thing w/ itself
+                ForEach(viewModel.cards) { card in
+                    CardView(card)
+                        .aspectRatio(2/3, contentMode: .fit)
+                        .padding(4)
+                        .onTapGesture {
+                            viewModel.choose(card)
+                        }
+                }
+                
             }
             
         }
-        .foregroundColor(.orange)
+            .foregroundColor(.orange)
+    }
+    
+    func gridWidth(count: Int, size: CGSize, aspectRatio: CGFloat) -> CGFloat{
+        // overriding the variable w/ another value (scoping)
+        let count = CGFloat(count)
+        var cols = 1.0
+        repeat {
+            let width = size.width / cols
+            let height = width / aspectRatio
+            let rows = (count/cols).rounded(.up)
+            if rows * height < size.height {
+                return (size.width / cols).rounded(.down)
+            }
+            cols += 1
+        } while cols < count
+        return min(size.width / count, size.height*aspectRatio).rounded(.down)
     }
 }
 
