@@ -13,10 +13,10 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
         VStack {
+            Text("matching \(viewModel.theme.name)")
             ScrollView {
                 cards
                     .animation(.default, value: viewModel.cards)
-        
             }
             Button("New game"){
                 viewModel.restart()

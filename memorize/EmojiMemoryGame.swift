@@ -26,7 +26,7 @@ class EmojiMemoryGame: ObservableObject {
         MemoryGame<String>.Theme(name: "objects", content: ["📸", "💿", "🔋", "⏳", "🧨"], pairNumber: 4, color: .red),
         MemoryGame<String>.Theme(name: "sports", content: ["🏀", "🎱", "🏈", "🥎", "🎾","🏐","🏄", "🛼", "⛸️", "🥊", "⛳️"], pairNumber: 8, color: .yellow),
         MemoryGame<String>.Theme(name: "flags", content: ["🇧🇴", "🇨🇻", "🇧🇹", "🇨🇦", "🇦🇸", "🇩🇲", "🇱🇹", "🇾🇹"], pairNumber: 8, color: .green),
-        MemoryGame<String>.Theme(name: "minimalist", content: ["✤", "☆", "◎", "❖", "☮︎", "►"], pairNumber: 4, color: .black)
+        MemoryGame<String>.Theme(name: "symbols", content: ["✤", "☆", "◎", "❖", "☮︎", "►"], pairNumber: 4, color: .black)
     ]
     
     private static var theme: MemoryGame<String>.Theme?
