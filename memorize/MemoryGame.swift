@@ -14,11 +14,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     init(pairs: Int, content: Int, cardContentFactory: (Int) -> CardContent) {
         cards = []
-        var availablePairs = Array(0...content-1)
-        for _ in 0...pairs {
-            let random = Int.random(in: 1...availablePairs.count)
+        var availablePairs = Array(0..<content)
+        for _ in 0..<pairs {
+            let random = Int.random(in: 0..<availablePairs.count)
             print("random: \(random)")
-            let index = availablePairs.remove(at: random-1)
+            let index = availablePairs.remove(at: random)
             print("index: \(index)")
             let content = cardContentFactory(index)
             print("content: \(content)")

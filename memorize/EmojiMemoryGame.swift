@@ -21,12 +21,12 @@ class EmojiMemoryGame: ObservableObject {
     @Published private var model = createMemoryGame()
     
     private static var themes: Array<MemoryGame<String>.Theme> = [
-        MemoryGame<String>.Theme(name: "animals", content: ["🐯", "🪱", "🐢", "🦧", "🐯", "🪱", "🐢", "🦧"], pairNumber: 5, color: .blue),
-        MemoryGame<String>.Theme(name: "food", content: ["🥑", "🍞", "🌯", "🍟", "🥗", "🥑", "🍞", "🌯", "🍟", "🥗"], pairNumber: 8, color: .red),
-        MemoryGame<String>.Theme(name: "objects", content: ["📸", "💿", "🔋", "⏰", "⏳", "🧨","📸", "💿", "🔋", "⏰", "⏳", "🧨"], pairNumber: 7, color: .red),
-        MemoryGame<String>.Theme(name: "sports", content: ["🏀", "🎱", "🏈", "🥎", "🎾","🏐"], pairNumber: 4, color: .yellow),
-        MemoryGame<String>.Theme(name: "flags", content: ["🇧🇴", "🇨🇻", "🇧🇹", "🇨🇦", "🇦🇸", "🇩🇲", "🇱🇹", "🇾🇹"], pairNumber: 4, color: .green),
-        MemoryGame<String>.Theme(name: "minimalist", content: ["✤", "☆", "◎", "❖", "☮︎", "►"], pairNumber: 3, color: .black)
+        MemoryGame<String>.Theme(name: "animals", content: ["🪱", "🐢", "🦧", "🐯", "🐜", "🦋", "🐹", "🐶", "🐻‍❄️"], pairNumber: 6, color: .blue),
+        MemoryGame<String>.Theme(name: "food", content: ["🥑", "🍞", "🌯", "🍟", "🥗", "🍎", "🥨", "🧀"], pairNumber: 6, color: .red),
+        MemoryGame<String>.Theme(name: "objects", content: ["📸", "💿", "🔋", "⏳", "🧨"], pairNumber: 4, color: .red),
+        MemoryGame<String>.Theme(name: "sports", content: ["🏀", "🎱", "🏈", "🥎", "🎾","🏐","🏄", "🛼", "⛸️", "🥊", "⛳️"], pairNumber: 8, color: .yellow),
+        MemoryGame<String>.Theme(name: "flags", content: ["🇧🇴", "🇨🇻", "🇧🇹", "🇨🇦", "🇦🇸", "🇩🇲", "🇱🇹", "🇾🇹"], pairNumber: 8, color: .green),
+        MemoryGame<String>.Theme(name: "minimalist", content: ["✤", "☆", "◎", "❖", "☮︎", "►"], pairNumber: 4, color: .black)
     ]
     
     private static var theme: MemoryGame<String>.Theme?
