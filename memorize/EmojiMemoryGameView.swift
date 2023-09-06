@@ -14,6 +14,7 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         VStack {
             Text("matching \(viewModel.theme.name)")
+            Text("score: \(viewModel.score)")
             ScrollView {
                 cards
                     .animation(.default, value: viewModel.cards)

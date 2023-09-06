@@ -15,7 +15,7 @@ func createCardContent(forPairAtIndex index: Int) -> String {
 
 class EmojiMemoryGame: ObservableObject {
     // static makes the variable global but namespaces it in the class
-    private static let emojis = ["🫥", "🐦", "🫧","🧊", "🏖️", "♨️", "🔶", "🎴", "❣️", "📚", "🦦", "👹"]
+    //private static let emojis = ["🫥", "🐦", "🫧","🧊", "🏖️", "♨️", "🔶", "🎴", "❣️", "📚", "🦦", "👹"]
     // private changes from partial to full separation, so that the view doesn't access the model
     //@Published notifies when it changes
     @Published private var model = createMemoryGame()
@@ -23,7 +23,7 @@ class EmojiMemoryGame: ObservableObject {
     private static var themes: Array<MemoryGame<String>.Theme> = [
         MemoryGame<String>.Theme(name: "animals", content: ["🪱", "🐢", "🦧", "🐯", "🐜", "🦋", "🐹", "🐶", "🐻‍❄️"], pairNumber: 6, color: .blue),
         MemoryGame<String>.Theme(name: "food", content: ["🥑", "🍞", "🌯", "🍟", "🥗", "🍎", "🥨", "🧀"], pairNumber: 6, color: .red),
-        MemoryGame<String>.Theme(name: "objects", content: ["📸", "💿", "🔋", "⏳", "🧨"], pairNumber: 4, color: .red),
+        MemoryGame<String>.Theme(name: "objects", content: ["📸", "💿", "🔋", "⏳", "🧨"], pairNumber: 4, color: .orange),
         MemoryGame<String>.Theme(name: "sports", content: ["🏀", "🎱", "🏈", "🥎", "🎾","🏐","🏄", "🛼", "⛸️", "🥊", "⛳️"], pairNumber: 8, color: .yellow),
         MemoryGame<String>.Theme(name: "flags", content: ["🇧🇴", "🇨🇻", "🇧🇹", "🇨🇦", "🇦🇸", "🇩🇲", "🇱🇹", "🇾🇹"], pairNumber: 8, color: .green),
         MemoryGame<String>.Theme(name: "symbols", content: ["✤", "☆", "◎", "❖", "☮︎", "►"], pairNumber: 4, color: .black)
@@ -48,6 +48,10 @@ class EmojiMemoryGame: ObservableObject {
     
     var theme: MemoryGame<String>.Theme {
         return EmojiMemoryGame.theme!
+    }
+    
+    var score: Int {
+        return model.score
     }
     
     // intent functions

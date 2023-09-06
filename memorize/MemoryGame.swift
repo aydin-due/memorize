@@ -11,6 +11,8 @@ import SwiftUI
 struct MemoryGame<CardContent> where CardContent: Equatable {
     // private(set) it's read-only, can't change the var
     private(set) var cards: Array<Card>
+    private(set) var score = 0
+    private(set) var seenCards = [String]()
     
     init(pairs: Int, content: Int, cardContentFactory: (Int) -> CardContent) {
         cards = []
@@ -64,13 +66,30 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
 
     mutating func choose(_ card: Card) {
         //print("chose \(card)")
+        // get index of chosen card
         if let chosenCard = cards.firstIndex(where: {$0.id == card.id}) {
+            //if the card isn't facing up or isn't matched
             if !cards[chosenCard].isFaceUp && !cards[chosenCard].isMatched {
+                // if there's another card facing up
                 if let previousCard = upsideCardIndex {
+                    // if the cards facing up match
                     if cards[chosenCard].content == cards[previousCard].content {
                         cards[chosenCard].isMatched = true
                         cards[previousCard].isMatched = true
+                        score += 2
+                    // if the cards facing up don't match
+                    } else {
+                        if seenCards.filter({$0 == cards[chosenCard].id}).count > 0 {
+                            score -= 1
+                        }
+                        if seenCards.filter({$0 == cards[previousCard].id}).count > 0 {
+                            score -= 1
+                        }
+                        seenCards.append(cards[chosenCard].id)
+                        seenCards.append(cards[previousCard].id)
                     }
+                    
+                // if there's no other card facing up
                 } else {
                     upsideCardIndex = chosenCard
                 }
