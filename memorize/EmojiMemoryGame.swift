@@ -17,13 +17,25 @@ class EmojiMemoryGame: ObservableObject {
     // static makes the variable global but namespaces it in the class
     private static let emojis = ["🫥", "🐦", "🫧","🧊", "🏖️", "♨️", "🔶", "🎴", "❣️", "📚", "🦦", "👹"]
     // private changes from partial to full separation, so that the view doesn't access the model
-    //@Publoshed notifies when it changes
+    //@Published notifies when it changes
     @Published private var model = createMemoryGame()
     
+    private static var themes: Array<MemoryGame<String>.Theme> = [
+        MemoryGame<String>.Theme(name: "animals", content: ["🐯", "🪱", "🐢", "🦧", "🐯", "🪱", "🐢", "🦧"], pairNumber: 5, color: .blue),
+        MemoryGame<String>.Theme(name: "food", content: ["🥑", "🍞", "🌯", "🍟", "🥗", "🥑", "🍞", "🌯", "🍟", "🥗"], pairNumber: 8, color: .red),
+        MemoryGame<String>.Theme(name: "objects", content: ["📸", "💿", "🔋", "⏰", "⏳", "🧨","📸", "💿", "🔋", "⏰", "⏳", "🧨"], pairNumber: 7, color: .red),
+        MemoryGame<String>.Theme(name: "sports", content: ["🏀", "🎱", "🏈", "🥎", "🎾","🏐"], pairNumber: 4, color: .yellow),
+        MemoryGame<String>.Theme(name: "flags", content: ["🇧🇴", "🇨🇻", "🇧🇹", "🇨🇦", "🇦🇸", "🇩🇲", "🇱🇹", "🇾🇹"], pairNumber: 4, color: .green),
+        MemoryGame<String>.Theme(name: "minimalist", content: ["✤", "☆", "◎", "❖", "☮︎", "►"], pairNumber: 3, color: .black)
+    ]
+    
+    private static var theme: MemoryGame<String>.Theme?
+    
     private static func createMemoryGame() -> MemoryGame<String>{
-        return MemoryGame(pairsQuantity: 6) { pairIndex in
-            if emojis.indices.contains(pairIndex) {
-                return emojis[pairIndex]}
+        theme = themes.randomElement() ?? themes.first
+        return MemoryGame(pairs: theme!.pairNumber, content: theme!.content.count) { pairIndex in
+            if theme!.content.indices.contains(pairIndex) {
+                return theme!.content[pairIndex]}
             else {
                 return "💀"
             }
@@ -32,6 +44,10 @@ class EmojiMemoryGame: ObservableObject {
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
+    }
+    
+    var theme: MemoryGame<String>.Theme {
+        return EmojiMemoryGame.theme!
     }
     
     // intent functions
@@ -45,6 +61,6 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     func restart(){
-        model.restart()
+        model = EmojiMemoryGame.createMemoryGame()
     }
 }

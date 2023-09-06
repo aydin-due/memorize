@@ -6,17 +6,24 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
     // private(set) it's read-only, can't change the var
     private(set) var cards: Array<Card>
     
-    init(pairsQuantity: Int, cardContentFactory: (Int) -> CardContent) {
+    init(pairs: Int, content: Int, cardContentFactory: (Int) -> CardContent) {
         cards = []
-        for pairIndex in 0..<max(2, pairsQuantity) {
-            let content = cardContentFactory(pairIndex)
-            cards.append(Card(content: content, id: "\(pairIndex+1)a"))
-            cards.append(Card(content: content, id: "\(pairIndex+1)b"))
+        var availablePairs = Array(0...content-1)
+        for _ in 0...pairs {
+            let random = Int.random(in: 1...availablePairs.count)
+            print("random: \(random)")
+            let index = availablePairs.remove(at: random-1)
+            print("index: \(index)")
+            let content = cardContentFactory(index)
+            print("content: \(content)")
+            cards.append(Card(content: content, id: "\(index+1)a"))
+            cards.append(Card(content: content, id: "\(index+1)b"))
         }
         shuffle()
          
@@ -114,6 +121,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         shuffle()
     }
     
+    struct Theme{
+        let name: String, content: [String], pairNumber: Int, color: Color
+    }
 }
 
 extension Array {
