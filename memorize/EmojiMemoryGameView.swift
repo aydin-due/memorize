@@ -11,6 +11,9 @@ struct EmojiMemoryGameView: View {
     // @StateObject - var exists only when the view's active
     // @ObservedObject - var's lifetime is where it comes from (the app or another view)
     @ObservedObject var viewModel: EmojiMemoryGame
+    private let aspectRatio: CGFloat = 2/3
+    
+    
     var body: some View {
         VStack {
                 cards
@@ -22,10 +25,7 @@ struct EmojiMemoryGameView: View {
         .padding() 
     }
     
-    var cards: some View {
-        GeometryReader{ geometry in
-            let gridSize = gridWidth(count: viewModel.cards.count, size: geometry.size, aspectRatio: 2/3)
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: gridSize), spacing: 0)], spacing: 0) {
+    private var cards: some View {
                 // this is dependent on the card index, not the card itself
                 /*
                  ForEach(viewModel.cards.indices, id: \.self) { index in
@@ -35,37 +35,19 @@ struct EmojiMemoryGameView: View {
                  }
                  */
                 // \.self means to identify the thing w/ itself
-                ForEach(viewModel.cards) { card in
-                    CardView(card)
-                        .aspectRatio(2/3, contentMode: .fit)
-                        .padding(4)
-                        .onTapGesture {
-                            viewModel.choose(card)
-                        }
+        AspectVGrid(viewModel.cards, aspectRatio: aspectRatio) { card in
+            CardView(card)
+                .padding(4)
+                .onTapGesture {
+                    viewModel.choose(card)
                 }
-                
-            }
-            
         }
-            .foregroundColor(.orange)
+        .foregroundColor(Color.orange)
+                
     }
     
-    func gridWidth(count: Int, size: CGSize, aspectRatio: CGFloat) -> CGFloat{
-        // overriding the variable w/ another value (scoping)
-        let count = CGFloat(count)
-        var cols = 1.0
-        repeat {
-            let width = size.width / cols
-            let height = width / aspectRatio
-            let rows = (count/cols).rounded(.up)
-            if rows * height < size.height {
-                return (size.width / cols).rounded(.down)
-            }
-            cols += 1
-        } while cols < count
-        return min(size.width / count, size.height*aspectRatio).rounded(.down)
-    }
 }
+            
 
 struct CardView: View {
     // (var > let if optional so that it can change, otherwise it'd just use the default value)
