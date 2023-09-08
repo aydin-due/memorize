@@ -31,6 +31,7 @@ struct CardView: View {
         })
          */
         // trailing closure syntax
+        /*
         ZStack {
             // can declare variables (let > var bc it can't change)
             let base =  RoundedRectangle(cornerRadius: Constants.cornerRadius)
@@ -57,6 +58,21 @@ struct CardView: View {
             base.fill().opacity(card.isFaceUp ? 0 : 1)
         }
         .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+         */
+        Pie(endAngle: .degrees(240))
+            .opacity(Constants.Pie.opacity)
+            .overlay(
+                Text(card.content)
+                    .font(.system(size: Constants.fontSize))
+                    .minimumScaleFactor(Constants.minimumScaleFactor)
+                    .multilineTextAlignment(.center)
+                    .aspectRatio(1, contentMode: .fit)
+                    .padding(Constants.Pie.inset)
+            )
+            .padding(Constants.inset)
+            .modifier(Cardify(isFaceUp: card.isFaceUp))
+            .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+        
     }
     
     struct Constants {
