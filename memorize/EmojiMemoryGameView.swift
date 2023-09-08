@@ -42,7 +42,7 @@ struct EmojiMemoryGameView: View {
                     viewModel.choose(card)
                 }
         }
-        .foregroundColor(Color.orange)
+        .foregroundColor(viewModel.color)
                 
     }
     
