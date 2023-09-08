@@ -33,16 +33,16 @@ struct CardView: View {
         // trailing closure syntax
         ZStack {
             // can declare variables (let > var bc it can't change)
-            let base =  RoundedRectangle(cornerRadius: 12)
+            let base =  RoundedRectangle(cornerRadius: Constants.cornerRadius)
             // let x = 1
             // can't make operations on vars
             // x = x+1
             Group{
                 base.fill(.white)
-                base.strokeBorder(lineWidth: 2)
+                base.strokeBorder(lineWidth: Constants.lineWidth)
                 Text(card.content)
-                    .font(.system(size: 200))
-                    .minimumScaleFactor(0.01)
+                    .font(.system(size: Constants.fontSize))
+                    .minimumScaleFactor(Constants.minimumScaleFactor)
                     .multilineTextAlignment(.center)
                     .aspectRatio(1, contentMode: .fit)
             }
@@ -50,6 +50,14 @@ struct CardView: View {
             base.fill().opacity(card.isFaceUp ? 0 : 1)
         }
         .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+    }
+    
+    struct Constants {
+        static var lineWidth: CGFloat = 2
+        static var fontSize: CGFloat = 200
+        static var cornerRadius: CGFloat = 12
+        static var minimumScaleFactor = 0.01
+        
     }
 }
 
