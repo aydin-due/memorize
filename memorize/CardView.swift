@@ -40,11 +40,18 @@ struct CardView: View {
             Group{
                 base.fill(.white)
                 base.strokeBorder(lineWidth: Constants.lineWidth)
-                Text(card.content)
-                    .font(.system(size: Constants.fontSize))
-                    .minimumScaleFactor(Constants.minimumScaleFactor)
-                    .multilineTextAlignment(.center)
-                    .aspectRatio(1, contentMode: .fit)
+                Pie(endAngle: .degrees(240))
+                    .opacity(Constants.Pie.opacity)
+                    .overlay(
+                        Text(card.content)
+                            .font(.system(size: Constants.fontSize))
+                            .minimumScaleFactor(Constants.minimumScaleFactor)
+                            .multilineTextAlignment(.center)
+                            .aspectRatio(1, contentMode: .fit)
+                            .padding(Constants.Pie.inset)
+                    )
+                    .padding(Constants.inset)
+                
             }
             //.opacity(isFaceUp ? 1 : 0)
             base.fill().opacity(card.isFaceUp ? 0 : 1)
@@ -57,6 +64,11 @@ struct CardView: View {
         static var fontSize: CGFloat = 200
         static var cornerRadius: CGFloat = 12
         static var minimumScaleFactor = 0.01
+        static var inset: CGFloat = 7
+        struct Pie {
+            static var inset: CGFloat = 5
+            static var opacity: CGFloat = 0.4
+        }
         
     }
 }
