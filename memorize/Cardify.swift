@@ -35,3 +35,9 @@ struct Cardify: ViewModifier  {
         
     }
 }
+
+extension View {
+    func cardify(isFaceUp: Bool) -> some View {
+        modifier(Cardify(isFaceUp: isFaceUp))
+    }
+}
